@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TV SEARCH APP</title>
+    <link rel="stylesheet" href="app.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,200;1,300&display=swap"
+        rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <form action="/" id="SearchForm">
+        <section id="head">
+            <h2 class="label">TV SHOWS SEARCH APP</h2>
+            <section id="search">
+                <input size="16" type="text" placeholder="Search" name="query"> 
+                <select name="category" id="category" >
+                    <option>Select Genre</option>
+                    <option value="Adventures">Adventures</option>
+                    <option value="Comedy">Comedy</option>
+                    <option value="Action">Action</option>
+                    <option value="Drama">Drama</option>
+                    <option value="Crime">Crime</option>
+                </select>
+                <button id="btn"><img id="searchimg" src="search.jpg"></button>
+            </section>
+        </section>
+    </form>
+    <form id="Filter">
+    </form>
+    <hr>
+    
+    <section id="movies">
+        <h2 id="popmovies">Popular Shows</h2>
+    </section>
+    <script src="App.js"></script>
+    <script>
+            let i = 0;
+            async function addIntially(l) {
+                const res = await axios.get(`https://api.tvmaze.com/shows`);
+                const response = res.data;
+                const length = response.length;
+                for (let i = l;i<l+20 && i<100;i++) {
+                    const result = response[i];
+                    const img = document.createElement('IMG');
+                    const h4 = document.createElement('h4');
+                    const link = document.createElement('a');
+                    const div = document.createElement('div');
+                    link.id = 'dvs';
+                    div.id = 'results';
+                    img.id = 'dvs';
+                    let ref = result.officialSite;
+                    div.appendChild(img);
+                    if (ref != null) {
+                        link.href = ref;
+                        link.target = 'blank';
+                        link.innerText = "Go-to";   
+                        div.appendChild(link);
+                    }
+                    const URL = result.image.medium;
+                    img.src = URL;
+                    h4.innerText = result.name;
+                    h4.id = 'dvs';
+                    div.appendChild(h4);
+                    div.classList.add("zoom");
+                    const shows = document.querySelector('#movies');
+                    shows.append(div);
+                }
+            }
+            addIntially(i);
+            var intervalID = setInterval(async function() {
+                i = i+30;
+                addIntially(i);
+            }, 10000);
+            setTimeout(function() {
+                clearInterval(intervalID);
+            }, 30000);
+    </script>
+</body>
+
+</html>
