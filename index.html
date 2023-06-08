@@ -40,48 +40,6 @@
         <h2 id="popmovies">Popular Shows</h2>
     </section>
     <script src="App.js"></script>
-    <script>
-            let i = 0;
-            async function addIntially(l) {
-                const res = await axios.get(`https://api.tvmaze.com/shows`);
-                const response = res.data;
-                const length = response.length;
-                for (let i = l;i<l+20 && i<100;i++) {
-                    const result = response[i];
-                    const img = document.createElement('IMG');
-                    const h4 = document.createElement('h4');
-                    const link = document.createElement('a');
-                    const div = document.createElement('div');
-                    link.id = 'dvs';
-                    div.id = 'results';
-                    img.id = 'dvs';
-                    let ref = result.officialSite;
-                    div.appendChild(img);
-                    if (ref != null) {
-                        link.href = ref;
-                        link.target = 'blank';
-                        link.innerText = "Go-to";   
-                        div.appendChild(link);
-                    }
-                    const URL = result.image.medium;
-                    img.src = URL;
-                    h4.innerText = result.name;
-                    h4.id = 'dvs';
-                    div.appendChild(h4);
-                    div.classList.add("zoom");
-                    const shows = document.querySelector('#movies');
-                    shows.append(div);
-                }
-            }
-            addIntially(i);
-            var intervalID = setInterval(async function() {
-                i = i+30;
-                addIntially(i);
-            }, 10000);
-            setTimeout(function() {
-                clearInterval(intervalID);
-            }, 30000);
-    </script>
 </body>
 
 </html>
